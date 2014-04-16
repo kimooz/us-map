@@ -75,7 +75,8 @@
     
     // State specific styles. 'ST': {}
     'stateSpecificStyles': {},
-    
+
+    'stateSpecificValues': {},
     // State specific hover styles
     'stateSpecificHoverStyles': {},
     
@@ -171,6 +172,7 @@
       // Keep track of all the states
       this.stateHitAreas = {}; // transparent for the hit area
       this.stateShapes = {}; // for the visual shape
+      this.stateValue = {}; // for the visual shape
       this.topShape = null;
       
       // create all the states
@@ -258,6 +260,7 @@
         if(this.options.stateSpecificStyles[state]) {
           $.extend(stateAttr, attr, this.options.stateSpecificStyles[state]);
         } else {
+          console.log(attr)
           stateAttr = attr;
         }
         this.stateShapes[state] = R.path(paths[state]).attr(stateAttr);
@@ -266,6 +269,7 @@
         this.stateHitAreas[state] = R.path(paths[state]).attr({fill: "#000",
       "stroke-width": 0, "opacity" : 0.0, 'cursor': 'pointer'});
         this.stateHitAreas[state].node.dataState = state;
+        this.stateValue[state] = this.options.stateSpecificValues[state];
       }
       
       // Bind events
@@ -389,10 +393,13 @@
       var labelBacking = this.labelShapes[stateName];
       var labelText = this.labelTexts[stateName];
       var labelHitArea = this.labelHitAreas[stateName]
+      var stateValue = this.stateValue[stateName]
+
       
       return {
         shape: stateShape, 
         hitArea: stateHitArea, 
+        value: stateValue,
         name: stateName, 
         labelBacking: labelBacking, 
         labelText: labelText, 
